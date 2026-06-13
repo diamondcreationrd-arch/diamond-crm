@@ -159,7 +159,7 @@ export function AIAgentsClient({ clients, totalLeads, totalCampaigns }: Props) {
   const Icon = activeAgent.icon;
 
   return (
-    <div className="flex flex-col lg:flex-row gap-5 h-[calc(100vh-180px)] min-h-[500px]">
+    <div className="flex flex-col lg:flex-row gap-5 h-[calc(100vh-230px)] md:h-[calc(100vh-180px)] min-h-[500px]">
       {/* Sidebar agents */}
       <div className="lg:w-56 shrink-0 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
         <p className="hidden lg:block text-xs font-body text-diamond-muted uppercase tracking-widest mb-1 shrink-0">Agents</p>
