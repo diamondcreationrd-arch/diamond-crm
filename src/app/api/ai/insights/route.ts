@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     }),
     prisma.campaign.findMany({
       where: { clientId },
-      select: { name: true, platform: true, status: true, budget: true, spend: true, leads: true, conversions: true },
+      select: { name: true, platform: true, status: true, budget: true, totalSpend: true, totalLeads: true, totalConversions: true },
     }),
   ]);
 
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
   const conversionRate = leads.length > 0 ? ((leads.filter((l: any) => l.isConverted).length / leads.length) * 100).toFixed(1) : "0";
   const qualificationRate = leads.length > 0 ? ((leads.filter((l: any) => l.isQualified).length / leads.length) * 100).toFixed(1) : "0";
 
-  const dataContext = `Client: ${client?.businessName}\nLeads ce mois: ${recentLeads.length}\nTotal leads: ${leads.length}\nTaux conversion: ${conversionRate}%\nTaux qualification: ${qualificationRate}%\nPar source: ${JSON.stringify(bySource)}\nPar statut: ${JSON.stringify(byStatus)}\nCampagnes: ${JSON.stringify(campaigns.map((c: any) => ({ name: c.name, platform: c.platform, status: c.status, spend: c.spend, leads: c.leads })))}`;
+  const dataContext = `Client: ${client?.businessName}\nLeads ce mois: ${recentLeads.length}\nTotal leads: ${leads.length}\nTaux conversion: ${conversionRate}%\nTaux qualification: ${qualificationRate}%\nPar source: ${JSON.stringify(bySource)}\nPar statut: ${JSON.stringify(byStatus)}\nCampagnes: ${JSON.stringify(campaigns.map((c: any) => ({ name: c.name, platform: c.platform, status: c.status, spend: c.totalSpend, leads: c.totalLeads })))}`;
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   let report = "";
