@@ -20,7 +20,7 @@ export function StatCard({ title, value, icon: Icon, trend, prefix, suffix }: Pr
         </div>
       </div>
       <div className="flex items-end justify-between">
-        <p className="text-3xl font-bold text-white">
+        <p className="text-2xl md:text-3xl font-bold text-white">
           {prefix}{typeof value === "number" ? value.toLocaleString("fr-CA") : value}{suffix}
         </p>
         {trend && (
