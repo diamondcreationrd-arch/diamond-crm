@@ -106,7 +106,7 @@ export function LandingPageRenderer({ page, utms }: Props) {
 
         {/* Form section */}
         <div className="max-w-lg mx-auto px-4 pb-24">
-          <div className="rounded-2xl p-8 border" style={{ background: "#171510", borderColor: "#2A2518" }}>
+          <div className="rounded-2xl p-4 md:p-8 border" style={{ background: "#171510", borderColor: "#2A2518" }}>
             <h2 className="text-xl font-bold text-white mb-2">
               {content.formTitle ?? "Obtenez votre consultation gratuite"}
             </h2>
