@@ -97,19 +97,21 @@ Budget total dépensé : ${totalSpend > 0 ? "$" + totalSpend.toFixed(0) : "N/A"}
   } catch (_) {}
 
   const systemPrompt = agentConfig.systemPrompt + crmContext;
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   let reply = "";
 
   if (apiKey) {
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
-        headers: { "x-api-key": apiKey, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+        headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-3-5-haiku-20241022",
+          model: "llama-3.3-70b-versatile",
           max_tokens: 1500,
-          system: systemPrompt,
-          messages: messages.map((m: any) => ({ role: m.role === "agent" ? "assistant" : "user", content: m.text })),
+          messages: [
+            { role: "system", content: systemPrompt },
+            ...messages.map((m: any) => ({ role: m.role === "agent" ? "assistant" : "user", content: m.text })),
+          ],
         }),
       });
       const raw = await res.text();
@@ -117,13 +119,13 @@ Budget total dépensé : ${totalSpend > 0 ? "$" + totalSpend.toFixed(0) : "N/A"}
           reply = "Erreur " + res.status + ": " + raw.slice(0, 400);
         } else {
         const data = JSON.parse(raw);
-        reply = data.content[0]?.text ?? "";
+        reply = data.choices[0]?.message?.content ?? "";
       }
     } catch (e: any) {
       reply = `Erreur API: ${e.message}`;
     }
   } else {
-    reply = `⚠️ Mode démo — ajoutez ANTHROPIC_API_KEY dans Railway pour activer les agents IA.\n\nQuestion reçue : "${messages[messages.length - 1]?.text}"`;
+    reply = `⚠️ Mode démo — ajoutez GROQ_API_KEY dans Railway pour activer les agents IA.\n\nQuestion reçue : "${messages[messages.length - 1]?.text}"`;
   }
 
   return NextResponse.json({ reply });
