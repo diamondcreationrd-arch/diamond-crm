@@ -114,7 +114,7 @@ Budget total dépensé : ${totalSpend > 0 ? "$" + totalSpend.toFixed(0) : "N/A"}
       });
       const raw = await res.text();
         if (!res.ok) {
-          reply = "Erreur API " + res.status;
+          reply = "Erreur " + res.status + ": " + raw.slice(0, 400);
         } else {
         const data = JSON.parse(raw);
         reply = data.content[0]?.text ?? "";
