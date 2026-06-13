@@ -1,0 +1,260 @@
+// Diamond Creation CRM - Database Schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── AGENCY (Diamond Creation) ───────────────────────────────────────────────
+model Agency {
+  id        String   @id @default(cuid())
+  name      String   @default("Diamond Creation")
+  logoUrl   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  clients   Client[]
+  users     User[]
+}
+
+// ─── CLIENTS (Portail par client) ────────────────────────────────────────────
+model Client {
+  id             String         @id @default(cuid())
+  agencyId       String
+  agency         Agency         @relation(fields: [agencyId], references: [id])
+  businessName   String
+  contactName    String
+  contactEmail   String
+  contactPhone   String?
+  logoUrl        String?
+  brandColor     String         @default("#BD9F50")
+  isActive       Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  users          User[]
+  campaigns      Campaign[]
+  leads          Lead[]
+  landingPages   LandingPage[]
+  notifications  NotificationSetting[]
+  adAccounts     AdAccount[]
+}
+
+// ─── USERS ───────────────────────────────────────────────────────────────────
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  password     String
+  name         String
+  role         UserRole  @default(CLIENT)
+  agencyId     String?
+  agency       Agency?   @relation(fields: [agencyId], references: [id])
+  clientId     String?
+  client       Client?   @relation(fields: [clientId], references: [id])
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([email])
+  @@index([clientId])
+}
+
+enum UserRole {
+  SUPER_ADMIN  // Diamond Creation team
+  CLIENT       // Client portal user
+}
+
+// ─── AD ACCOUNTS ─────────────────────────────────────────────────────────────
+model AdAccount {
+  id           String      @id @default(cuid())
+  clientId     String
+  client       Client      @relation(fields: [clientId], references: [id])
+  platform     AdPlatform
+  accountId    String      // Platform's account ID
+  accountName  String
+  accessToken  String?     // Encrypted
+  isConnected  Boolean     @default(false)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  campaigns    Campaign[]
+
+  @@unique([clientId, platform, accountId])
+}
+
+enum AdPlatform {
+  META
+  GOOGLE
+  TIKTOK
+}
+
+// ─── CAMPAIGNS ───────────────────────────────────────────────────────────────
+model Campaign {
+  id            String       @id @default(cuid())
+  clientId      String
+  client        Client       @relation(fields: [clientId], references: [id])
+  adAccountId   String?
+  adAccount     AdAccount?   @relation(fields: [adAccountId], references: [id])
+  name          String
+  platform      AdPlatform?
+  platformCampaignId String? // ID on Meta/Google/TikTok
+  status        CampaignStatus @default(DRAFT)
+  budget        Float?       // Total budget
+  budgetDaily   Float?       // Daily budget
+  startDate     DateTime?
+  endDate       DateTime?
+  objective     String?      // LEAD_GENERATION, TRAFFIC, etc.
+  totalSpend    Float        @default(0)
+  totalLeads    Int          @default(0)
+  totalConversions Int       @default(0)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  leads         Lead[]
+  adSets        AdSet[]
+
+  @@index([clientId])
+}
+
+enum CampaignStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  COMPLETED
+  ARCHIVED
+}
+
+// ─── AD SETS ─────────────────────────────────────────────────────────────────
+model AdSet {
+  id              String    @id @default(cuid())
+  campaignId      String
+  campaign        Campaign  @relation(fields: [campaignId], references: [id])
+  name            String
+  platformAdSetId String?
+  spend           Float     @default(0)
+  leads           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  leads_rel       Lead[]
+}
+
+// ─── LEADS ───────────────────────────────────────────────────────────────────
+model Lead {
+  id              String      @id @default(cuid())
+  clientId        String
+  client          Client      @relation(fields: [clientId], references: [id])
+  campaignId      String?
+  campaign        Campaign?   @relation(fields: [campaignId], references: [id])
+  adSetId         String?
+  adSet           AdSet?      @relation(fields: [adSetId], references: [id])
+  landingPageId   String?
+  landingPage     LandingPage? @relation(fields: [landingPageId], references: [id])
+
+  // Lead info
+  firstName       String?
+  lastName        String?
+  email           String?
+  phone           String?
+  formData        Json?       // All form fields as JSON
+
+  // Source tracking
+  source          LeadSource  @default(MANUAL)
+  platform        AdPlatform?
+  platformLeadId  String?     // ID from Meta/TikTok/Google
+  utmSource       String?
+  utmMedium       String?
+  utmCampaign     String?
+  utmContent      String?
+  utmTerm         String?
+  ipAddress       String?
+  userAgent       String?
+  referrerUrl     String?
+
+  // Status
+  status          LeadStatus  @default(NEW)
+  notes           String?
+  isQualified     Boolean     @default(false)
+  isConverted     Boolean     @default(false)
+  convertedAt     DateTime?
+
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([clientId])
+  @@index([campaignId])
+  @@index([createdAt])
+}
+
+enum LeadSource {
+  LANDING_PAGE
+  META_LEAD_AD
+  GOOGLE_LEAD_FORM
+  TIKTOK_LEAD_GEN
+  MANUAL
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  UNQUALIFIED
+  CONVERTED
+  LOST
+}
+
+// ─── LANDING PAGES ───────────────────────────────────────────────────────────
+model LandingPage {
+  id          String      @id @default(cuid())
+  clientId    String
+  client      Client      @relation(fields: [clientId], references: [id])
+  name        String
+  slug        String      @unique
+  title       String
+  description String?
+  template    String      @default("MODERN") // MODERN, LUXURY, MINIMAL, BOLD
+  content     Json        // Page blocks/sections as JSON
+  formFields  Json        // Form fields config as JSON
+  isPublished Boolean     @default(false)
+  publishedAt DateTime?
+  views       Int         @default(0)
+  submissions Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  leads       Lead[]
+
+  @@index([slug])
+  @@index([clientId])
+}
+
+// ─── NOTIFICATION SETTINGS ────────────────────────────────────────────────────
+model NotificationSetting {
+  id             String   @id @default(cuid())
+  clientId       String
+  client         Client   @relation(fields: [clientId], references: [id])
+  emailEnabled   Boolean  @default(true)
+  smsEnabled     Boolean  @default(false)
+  emailAddress   String?
+  phoneNumber    String?
+  notifyOnNewLead      Boolean @default(true)
+  notifyOnConversion   Boolean @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([clientId])
+}
+
+// ─── AD SPEND (daily snapshots from platform APIs) ───────────────────────────
+model AdSpendSnapshot {
+  id           String     @id @default(cuid())
+  campaignId   String
+  date         DateTime   @db.Date
+  spend        Float      @default(0)
+  impressions  Int        @default(0)
+  clicks       Int        @default(0)
+  leads        Int        @default(0)
+  cpl          Float?     // Cost per lead
+  ctr          Float?     // Click-through rate
+  createdAt    DateTime   @default(now())
+
+  @@unique([campaignId, date])
+  @@index([campaignId])
+}

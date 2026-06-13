@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --diamond-black: #171510;
+    --diamond-gold: #BD9F50;
+    --diamond-gold-light: #D4B96A;
+    --diamond-surface: #1E1B14;
+    --diamond-border: #2A2518;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--diamond-black);
+    color: #ffffff;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--diamond-black); }
+  ::-webkit-scrollbar-thumb { background: var(--diamond-border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--diamond-gold); }
+}
+
+@layer components {
+  .btn-gold {
+    @apply bg-diamond-gold hover:bg-diamond-gold-light text-diamond-black font-semibold px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer;
+  }
+
+  .btn-outline {
+    @apply border border-diamond-border hover:border-diamond-gold text-white hover:text-diamond-gold px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer;
+  }
+
+  .card {
+    @apply bg-diamond-surface border border-diamond-border rounded-xl p-6;
+  }
+
+  .input {
+    @apply bg-diamond-black border border-diamond-border rounded-lg px-4 py-2.5 text-white placeholder-diamond-muted focus:outline-none focus:border-diamond-gold transition-colors w-full;
+  }
+
+  .label {
+    @apply text-sm text-diamond-muted font-medium mb-1.5 block;
+  }
+
+  .stat-card {
+    @apply card flex flex-col gap-2;
+  }
+
+  .badge-green {
+    @apply bg-emerald-900/40 text-emerald-400 text-xs px-2 py-0.5 rounded-full;
+  }
+
+  .badge-red {
+    @apply bg-red-900/40 text-red-400 text-xs px-2 py-0.5 rounded-full;
+  }
+
+  .badge-gold {
+    @apply bg-diamond-gold/20 text-diamond-gold text-xs px-2 py-0.5 rounded-full;
+  }
+
+  .badge-gray {
+    @apply bg-diamond-border text-diamond-muted text-xs px-2 py-0.5 rounded-full;
+  }
+}
+
+/* Diamond logo animation */
+.diamond-logo {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
