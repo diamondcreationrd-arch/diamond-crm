@@ -79,7 +79,14 @@ export async function POST(req: NextRequest) {
       trigger: template.trigger as any,
       triggerConfig: template.triggerConfig,
       isActive: true,
-      actions: { create: template.actions },
+      actions: {
+        create: template.actions.map(a => ({
+          order: a.order,
+          type: a.type as any,
+          config: a.config as any,
+          delayMinutes: a.delayMinutes,
+        })),
+      },
     },
     include: { actions: true },
   });
