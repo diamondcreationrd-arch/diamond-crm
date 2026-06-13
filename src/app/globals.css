@@ -16,10 +16,15 @@
   body {
     background-color: var(--diamond-black);
     color: #ffffff;
+    font-family: "DM Sans", Inter, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: "Funnel Display", Georgia, serif;
   }
 
   /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: var(--diamond-black); }
   ::-webkit-scrollbar-thumb { background: var(--diamond-border); border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--diamond-gold); }
@@ -65,9 +70,4 @@
   .badge-gray {
     @apply bg-diamond-border text-diamond-muted text-xs px-2 py-0.5 rounded-full;
   }
-}
-
-/* Diamond logo animation */
-.diamond-logo {
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }

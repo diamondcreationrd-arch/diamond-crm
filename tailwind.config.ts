@@ -15,8 +15,11 @@ const config: Config = {
         }
       },
       fontFamily: {
-        display: ["Georgia", "serif"],
-        body: ["Inter", "sans-serif"],
+        display: ['"Funnel Display"', 'Georgia', 'serif'],
+        body: ['"DM Sans"', 'Inter', 'sans-serif'],
+      },
+      letterSpacing: {
+        display: '0.02em',
       }
     }
   },
