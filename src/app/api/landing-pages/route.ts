@@ -45,3 +45,6 @@ export async function POST(req: NextRequest) {
         { id: "phone", type: "tel", label: "Téléphone", placeholder: "+1 514...", required: false },
       ]},
     },
+  });
+  return NextResponse.json(page, { status: 201 });
+}
