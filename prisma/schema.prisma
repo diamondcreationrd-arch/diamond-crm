@@ -364,7 +364,7 @@ model InviteToken {
   id        String   @id @default(cuid())
   token     String   @unique @default(cuid())
   email     String
-  role      UserRole @default(CLIENT_USER)
+  role      UserRole @default(CLIENT)
   clientId  String?
   agencyId  String?
   expiresAt DateTime
