@@ -77,7 +77,7 @@ export default async function ClientCampaigns() {
                 <span className={statusStyle[c.status]}>{statusFr[c.status]}</span>
               </div>
 
-              <div className="grid grid-cols-5 gap-4 text-center">
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 md:gap-4 text-center">
                 {[
                   ["Leads", c._count.leads, "text-diamond-gold"],
                   ["Dépensé", `$${c.totalSpend.toFixed(0)}`, "text-white"],
