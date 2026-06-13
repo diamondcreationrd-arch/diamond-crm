@@ -53,7 +53,7 @@ export default async function ClientCampaigns() {
           </div>
         )}
 
-        {campaigns.map(c => {
+        {campaigns.map((c: any) => {
           const cpl = c.totalLeads > 0 && c.totalSpend > 0
             ? `$${(c.totalSpend / c.totalLeads).toFixed(2)}` : "—";
           const convRate = c.totalLeads > 0 && c.totalConversions > 0

@@ -107,7 +107,7 @@ export function LeadsPageClient({ leads, clients = [], isAdmin }: Props) {
               {filtered.length === 0 && (
                 <tr><td colSpan={7} className="text-center py-16 text-diamond-muted">Aucun lead trouvé</td></tr>
               )}
-              {filtered.map(lead => (
+              {filtered.map((lead: any) => (
                 <tr key={lead.id} className="hover:bg-diamond-border/20 transition-colors cursor-pointer"
                   onClick={() => setSelectedLead(lead)}>
                   <td className="px-5 py-4">

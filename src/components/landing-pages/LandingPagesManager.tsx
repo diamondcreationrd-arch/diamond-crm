@@ -121,7 +121,7 @@ export function LandingPagesManager({ pages: initialPages, clientId, baseUrl, is
           </div>
         )}
 
-        {pages.map(page => (
+        {pages.map((page: any) => (
           <div key={page.id} className="card flex items-center gap-6">
             <div className="w-12 h-12 rounded-xl bg-diamond-black border border-diamond-border flex items-center justify-center shrink-0">
               <Globe size={20} className="text-diamond-gold" />

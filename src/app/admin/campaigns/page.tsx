@@ -53,7 +53,7 @@ export default async function AdminCampaigns({ searchParams }: { searchParams: R
             {campaigns.length === 0 && (
               <tr><td colSpan={8} className="text-center py-16 text-diamond-muted">Aucune campagne</td></tr>
             )}
-            {campaigns.map(c => {
+            {campaigns.map((c: any) => {
               const cpl = c.totalLeads > 0 && c.totalSpend > 0
                 ? `$${(c.totalSpend / c.totalLeads).toFixed(2)}` : "—";
               return (

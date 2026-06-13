@@ -74,7 +74,7 @@ export default function NewClient() {
           <div>
             <label className="label">Couleur de marque</label>
             <div className="flex items-center gap-3 flex-wrap">
-              {BRAND_COLORS.map(c => (
+              {BRAND_COLORS.map((c: string) => (
                 <button key={c} type="button" onClick={() => setBrandColor(c)}
                   className="w-8 h-8 rounded-lg transition-all"
                   style={{ background: c, outline: brandColor === c ? `3px solid ${c}` : "none", outlineOffset: "2px" }} />

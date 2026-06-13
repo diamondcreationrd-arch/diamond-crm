@@ -93,7 +93,7 @@ export function ChangePasswordForm() {
           </div>
           {next.length > 0 && (
             <div className="flex gap-1 mt-1.5">
-              {[4,6,8,10].map(n => (
+              {{[4,6,8,10].map((n: number) => (
                 <div key={n} className={`h-1 flex-1 rounded-full transition-colors ${
                   next.length >= n ? "bg-diamond-gold" : "bg-diamond-border"
                 }`}/>

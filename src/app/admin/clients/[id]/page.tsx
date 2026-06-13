@@ -72,7 +72,7 @@ export default async function ClientDetail({ params }: { params: { id: string } 
             {client.campaigns.length === 0
               ? <p className="text-diamond-muted text-sm">Aucune campagne</p>
               : <div className="space-y-2">
-                  {client.campaigns.map(c => (
+                  {client.campaigns.map((c: any) => (
                     <div key={c.id} className="flex items-center justify-between p-3 bg-diamond-black rounded-lg border border-diamond-border">
                       <div>
                         <p className="text-white text-sm font-medium">{c.name}</p>
@@ -99,7 +99,7 @@ export default async function ClientDetail({ params }: { params: { id: string } 
             </div>
             {client.landingPages.length === 0
               ? <p className="text-diamond-muted text-sm">Aucune landing page</p>
-              : client.landingPages.map(p => (
+              : client.landingPages.map((p: any) => (
                   <div key={p.id} className="flex items-center justify-between py-2 border-b border-diamond-border last:border-0">
                     <div>
                       <p className="text-white text-sm">{p.name}</p>
@@ -116,7 +116,7 @@ export default async function ClientDetail({ params }: { params: { id: string } 
           {/* Users */}
           <div className="card">
             <h2 className="font-semibold text-diamond-text mb-4">Accès portail</h2>
-            {client.users.map(u => (
+            {client.users.map((u: any) => (
               <div key={u.id} className="py-2 border-b border-diamond-border last:border-0">
                 <p className="text-white text-sm">{u.name}</p>
                 <p className="text-diamond-muted text-xs">{u.email}</p>

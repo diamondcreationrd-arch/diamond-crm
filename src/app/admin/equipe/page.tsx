@@ -57,7 +57,7 @@ export default function EquipePage() {
           <h2 className="font-display font-semibold text-diamond-text">Membres actifs</h2>
         </div>
         <div className="divide-y divide-diamond-border">
-          {members.map(m => (
+          {members.map((m: any) => (
             <div key={m.id} className="flex items-center justify-between py-3">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-diamond-raised flex items-center justify-center text-xs font-bold text-diamond-text">

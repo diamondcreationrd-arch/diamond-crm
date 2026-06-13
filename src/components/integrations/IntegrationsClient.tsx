@@ -96,7 +96,7 @@ export function IntegrationsClient({ adAccounts, clientId }: { adAccounts: AdAcc
         </div>
       )}
 
-      {PLATFORMS.map(platform => {
+      {PLATFORMS.map((platform: typeof PLATFORMS[0]) => {
         const account = getAccount(platform.key);
         const isManual = manualMode === platform.key;
 
