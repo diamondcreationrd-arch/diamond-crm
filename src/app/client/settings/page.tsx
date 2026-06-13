@@ -17,25 +17,25 @@ export default async function ClientSettings() {
   return (
     <div className="p-8 max-w-2xl">
       <div className="mb-8">
-        <h1 className="font-display font-bold text-white text-2xl tracking-wide">Paramètres</h1>
+        <h1 className="font-display font-bold text-diamond-text text-2xl tracking-wide">Paramètres</h1>
         <p className="text-diamond-muted mt-1 font-body text-sm">Gérez votre profil et vos préférences</p>
       </div>
 
       {/* Profile */}
       <div className="card mb-6">
-        <h2 className="font-display font-semibold text-white mb-4 tracking-wide">Mon profil</h2>
+        <h2 className="font-display font-semibold text-diamond-text mb-4 tracking-wide">Mon profil</h2>
         <div className="space-y-3 text-sm font-body">
           <div className="flex justify-between py-2 border-b border-diamond-border">
             <span className="text-diamond-muted">Nom</span>
-            <span className="text-white">{user.name}</span>
+            <span className="text-diamond-text">{user.name}</span>
           </div>
           <div className="flex justify-between py-2 border-b border-diamond-border">
             <span className="text-diamond-muted">Email</span>
-            <span className="text-white">{user.email}</span>
+            <span className="text-diamond-text">{user.email}</span>
           </div>
           <div className="flex justify-between py-2">
             <span className="text-diamond-muted">Entreprise</span>
-            <span className="text-white">{client?.businessName}</span>
+            <span className="text-diamond-text">{client?.businessName}</span>
           </div>
         </div>
       </div>

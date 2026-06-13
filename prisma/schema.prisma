@@ -76,7 +76,9 @@ model AdAccount {
   platform     AdPlatform
   accountId    String      // Platform's account ID
   accountName  String
-  accessToken  String?     // Encrypted
+  accessToken  String?     @db.Text
+  refreshToken String?     @db.Text
+  tokenExpiry  DateTime?
   isConnected  Boolean     @default(false)
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
@@ -355,4 +357,17 @@ enum ActionType {
   NOTIFY_WEBHOOK
   WAIT
   AI_QUALIFY_LEAD
+}
+
+// ─── INVITE TOKENS ───────────────────────────────────────────────────────────
+model InviteToken {
+  id        String   @id @default(cuid())
+  token     String   @unique @default(cuid())
+  email     String
+  role      UserRole @default(CLIENT_USER)
+  clientId  String?
+  agencyId  String?
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
 }

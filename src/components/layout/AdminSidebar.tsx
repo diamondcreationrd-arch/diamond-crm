@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { LayoutDashboard, Users, Target, TrendingUp, Globe, Settings, LogOut, CreditCard, Sparkles, Zap } from "lucide-react";
+import { LayoutDashboard, Users, Target, TrendingUp, Globe, Settings, LogOut, CreditCard, Sparkles, Zap, UserPlus } from "lucide-react";
 import { DiamondLogo } from "@/components/DiamondLogo";
 
 const nav = [
@@ -17,6 +17,7 @@ const nav = [
 ];
 
 const bottom = [
+  { href: "/admin/equipe", label: "Équipe & Accès", icon: UserPlus },
   { href: "/admin/settings", label: "Paramètres", icon: Settings },
 ];
 

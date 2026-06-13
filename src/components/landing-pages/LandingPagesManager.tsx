@@ -100,7 +100,7 @@ export function LandingPagesManager({ pages: initialPages, clientId, baseUrl, is
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-display font-bold text-white">Landing Pages</h1>
+          <h1 className="text-2xl font-display font-bold text-diamond-text">Landing Pages</h1>
           <p className="text-diamond-muted mt-1">{pages.length} page{pages.length !== 1 ? "s" : ""}</p>
         </div>
         <button onClick={() => setShowBuilder(true)} className="btn-gold flex items-center gap-2">

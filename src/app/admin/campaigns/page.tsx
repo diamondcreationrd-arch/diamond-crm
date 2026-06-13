@@ -30,7 +30,7 @@ export default async function AdminCampaigns({ searchParams }: { searchParams: R
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-display font-bold text-white">Campagnes</h1>
+          <h1 className="page-title">Campagnes</h1>
           <p className="text-diamond-muted mt-1">{campaigns.length} campagne{campaigns.length !== 1 ? "s" : ""}</p>
         </div>
       </div>
@@ -59,7 +59,7 @@ export default async function AdminCampaigns({ searchParams }: { searchParams: R
               return (
                 <tr key={c.id} className="hover:bg-diamond-border/20 transition-colors">
                   <td className="px-5 py-4">
-                    <p className="text-white font-medium">{c.name}</p>
+                    <p className="text-diamond-text font-medium">{c.name}</p>
                     {c.objective && <p className="text-diamond-muted text-xs">{c.objective}</p>}
                   </td>
                   <td className="px-5 py-4">
@@ -78,7 +78,7 @@ export default async function AdminCampaigns({ searchParams }: { searchParams: R
                   </td>
                   <td className="px-5 py-4"><span className={statusStyle[c.status]}>{c.status}</span></td>
                   <td className="px-5 py-4 text-diamond-gold font-semibold">{c._count.leads}</td>
-                  <td className="px-5 py-4 text-white">${c.totalSpend.toFixed(0)}</td>
+                  <td className="px-5 py-4 text-diamond-text">${c.totalSpend.toFixed(0)}</td>
                   <td className="px-5 py-4 text-emerald-400 font-semibold">{cpl}</td>
                   <td className="px-5 py-4 text-diamond-muted text-xs">
                     {format(new Date(c.createdAt), "d MMM yyyy", { locale: fr })}

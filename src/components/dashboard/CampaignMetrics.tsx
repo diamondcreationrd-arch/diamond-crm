@@ -26,7 +26,7 @@ export function CampaignMetrics({ campaigns }: { campaigns: Campaign[] }) {
   return (
     <div className="card">
       <div className="flex items-center justify-between mb-5">
-        <h2 className="font-semibold text-white">Campagnes</h2>
+        <h2 className="font-semibold text-diamond-text">Campagnes</h2>
         <Link href="/client/campaigns" className="text-diamond-gold text-sm hover:underline">Voir tout</Link>
       </div>
       <div className="space-y-3">
@@ -54,7 +54,7 @@ export function CampaignMetrics({ campaigns }: { campaigns: Campaign[] }) {
                   <p className="text-diamond-muted text-xs">Leads</p>
                 </div>
                 <div>
-                  <p className="text-white font-semibold text-sm">${c.totalSpend.toFixed(0)}</p>
+                  <p className="text-diamond-text font-semibold text-sm">${c.totalSpend.toFixed(0)}</p>
                   <p className="text-diamond-muted text-xs">Dépensé</p>
                 </div>
                 <div>

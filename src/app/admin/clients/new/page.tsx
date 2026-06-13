@@ -42,7 +42,7 @@ export default function NewClient() {
           <ArrowLeft size={20} />
         </Link>
         <div>
-          <h1 className="text-2xl font-display font-bold text-white">Nouveau client</h1>
+          <h1 className="page-title">Nouveau client</h1>
           <p className="text-diamond-muted mt-0.5">Créer un portail client</p>
         </div>
       </div>
@@ -50,7 +50,7 @@ export default function NewClient() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Business info */}
         <div className="card space-y-4">
-          <h2 className="font-semibold text-white mb-2">Informations de l'entreprise</h2>
+          <h2 className="font-semibold text-diamond-text mb-2">Informations de l'entreprise</h2>
           <div>
             <label className="label">Nom de l'entreprise *</label>
             <input className="input" required value={form.businessName} onChange={e => set("businessName", e.target.value)} placeholder="Restaurant Le Prestige" />
@@ -91,7 +91,7 @@ export default function NewClient() {
 
         {/* Login credentials */}
         <div className="card space-y-4">
-          <h2 className="font-semibold text-white mb-2">Accès au portail client</h2>
+          <h2 className="font-semibold text-diamond-text mb-2">Accès au portail client</h2>
           <div>
             <label className="label">Nom d'utilisateur *</label>
             <input className="input" required value={form.userName} onChange={e => set("userName", e.target.value)} placeholder="Marie Dupont" />

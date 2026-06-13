@@ -35,9 +35,9 @@ export default function AIInsightsPage() {
         return <h3 key={i} className="font-display font-bold text-diamond-gold mt-5 mb-2 first:mt-0">{line.replace(/\*\*/g, "")}</h3>;
       }
       if (line.startsWith("•")) {
-        return <p key={i} className="text-white/80 text-sm pl-3 border-l border-diamond-gold/30 py-0.5">{line.slice(1).trim()}</p>;
+        return <p key={i} className="text-diamond-muted text-sm pl-3 border-l border-diamond-gold/30 py-0.5">{line.slice(1).trim()}</p>;
       }
-      if (line.trim()) return <p key={i} className="text-white/80 text-sm">{line}</p>;
+      if (line.trim()) return <p key={i} className="text-diamond-text text-sm">{line}</p>;
       return null;
     });
   }
@@ -49,14 +49,14 @@ export default function AIInsightsPage() {
           <Sparkles size={20} className="text-diamond-gold" />
         </div>
         <div>
-          <h1 className="font-display font-bold text-white text-2xl tracking-wide">IA — Insights & Rapports</h1>
+          <h1 className="page-title">IA — Insights & Rapports</h1>
           <p className="text-diamond-muted text-sm font-body mt-0.5">Analyse automatique propulsée par Claude AI</p>
         </div>
       </div>
 
       {/* Generate */}
       <div className="card mb-6">
-        <h2 className="font-display font-semibold text-white mb-4">Générer un rapport client</h2>
+        <h2 className="font-display font-semibold text-diamond-text mb-4">Générer un rapport client</h2>
         <div className="flex gap-3">
           <input
             type="text"
@@ -86,7 +86,7 @@ export default function AIInsightsPage() {
             <div key={label} className="card flex items-center gap-3 p-4">
               <Icon size={18} className="text-diamond-gold shrink-0" />
               <div>
-                <p className="text-xl font-display font-bold text-white">{value}</p>
+                <p className="text-xl font-display font-bold text-diamond-text">{value}</p>
                 <p className="text-diamond-muted text-xs font-body">{label}</p>
               </div>
             </div>

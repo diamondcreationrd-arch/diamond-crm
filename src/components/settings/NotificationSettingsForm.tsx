@@ -40,7 +40,7 @@ export function NotificationSettingsForm({ clientId, initial }: Props) {
     <div className="card space-y-6">
       <div className="flex items-center gap-2 mb-2">
         <Bell size={16} className="text-diamond-gold" />
-        <h2 className="font-semibold text-white">Notifications leads</h2>
+        <h2 className="font-semibold text-diamond-text">Notifications leads</h2>
       </div>
 
       {/* Email */}
@@ -48,7 +48,7 @@ export function NotificationSettingsForm({ clientId, initial }: Props) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Mail size={15} className="text-diamond-muted" />
-            <span className="text-white text-sm">Notifications par email</span>
+            <span className="text-diamond-text text-sm">Notifications par email</span>
           </div>
           <Toggle checked={form.emailEnabled} onChange={v => set("emailEnabled", v)} />
         </div>
@@ -66,7 +66,7 @@ export function NotificationSettingsForm({ clientId, initial }: Props) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <MessageSquare size={15} className="text-diamond-muted" />
-            <span className="text-white text-sm">Notifications par SMS</span>
+            <span className="text-diamond-text text-sm">Notifications par SMS</span>
           </div>
           <Toggle checked={form.smsEnabled} onChange={v => set("smsEnabled", v)} />
         </div>
@@ -86,13 +86,13 @@ export function NotificationSettingsForm({ clientId, initial }: Props) {
           <input type="checkbox" checked={form.notifyOnNewLead}
             onChange={e => set("notifyOnNewLead", e.target.checked)}
             className="w-4 h-4 accent-diamond-gold" />
-          <span className="text-white text-sm">Nouveau lead reçu</span>
+          <span className="text-diamond-text text-sm">Nouveau lead reçu</span>
         </label>
         <label className="flex items-center gap-3 cursor-pointer">
           <input type="checkbox" checked={form.notifyOnConversion}
             onChange={e => set("notifyOnConversion", e.target.checked)}
             className="w-4 h-4 accent-diamond-gold" />
-          <span className="text-white text-sm">Lead converti</span>
+          <span className="text-diamond-text text-sm">Lead converti</span>
         </label>
       </div>
 

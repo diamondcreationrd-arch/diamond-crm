@@ -28,7 +28,7 @@ export default async function AdminClients() {
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-display font-bold text-white">Clients</h1>
+          <h1 className="page-title">Clients</h1>
           <p className="text-diamond-muted mt-1">{clients.length} client{clients.length !== 1 ? "s" : ""} actif{clients.length !== 1 ? "s" : ""}</p>
         </div>
         <Link href="/admin/clients/new" className="btn-gold flex items-center gap-2">

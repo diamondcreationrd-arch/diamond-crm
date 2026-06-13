@@ -33,7 +33,7 @@ export default async function ClientCampaigns() {
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-display font-bold text-white">Mes Campagnes</h1>
+        <h1 className="text-2xl font-display font-bold text-diamond-text">Mes Campagnes</h1>
         <p className="text-diamond-muted mt-1">{campaigns.length} campagne{campaigns.length !== 1 ? "s" : ""}</p>
       </div>
 
@@ -82,7 +82,7 @@ export default async function ClientCampaigns() {
                   ["Leads", c._count.leads, "text-diamond-gold"],
                   ["Dépensé", `$${c.totalSpend.toFixed(0)}`, "text-white"],
                   ["CPL", cpl, "text-emerald-400"],
-                  ["Conversions", c.totalConversions, "text-white"],
+                  ["Conversions", c.totalConversions, "text-diamond-text"],
                   ["Taux conv.", convRate, "text-emerald-400"],
                 ].map(([label, value, color]) => (
                   <div key={label as string} className="p-3 bg-diamond-black rounded-lg border border-diamond-border">

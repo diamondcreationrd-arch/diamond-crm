@@ -37,7 +37,7 @@ export function RecentLeadsTable({ leads, showClient }: Props) {
   return (
     <div className="card">
       <div className="flex items-center justify-between mb-5">
-        <h2 className="font-semibold text-white">Leads récents</h2>
+        <h2 className="font-semibold text-diamond-text">Leads récents</h2>
         <span className="text-diamond-muted text-sm">{leads.length} leads</span>
       </div>
       <div className="overflow-x-auto">
@@ -59,7 +59,7 @@ export function RecentLeadsTable({ leads, showClient }: Props) {
             {leads.map((lead) => (
               <tr key={lead.id} className="hover:bg-diamond-border/20 transition-colors">
                 <td className="py-3 pr-4">
-                  <p className="text-white font-medium">
+                  <p className="text-diamond-text font-medium">
                     {lead.firstName || lead.lastName
                       ? `${lead.firstName ?? ""} ${lead.lastName ?? ""}`.trim()
                       : lead.email ?? "—"}

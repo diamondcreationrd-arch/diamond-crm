@@ -63,7 +63,7 @@ export function LeadsPageClient({ leads, clients = [], isAdmin }: Props) {
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-display font-bold text-white">Leads</h1>
+          <h1 className="text-2xl font-display font-bold text-diamond-text">Leads</h1>
           <p className="text-diamond-muted mt-1">{filtered.length} lead{filtered.length !== 1 ? "s" : ""}</p>
         </div>
         <button onClick={exportCSV} className="btn-outline flex items-center gap-2 text-sm">
@@ -111,7 +111,7 @@ export function LeadsPageClient({ leads, clients = [], isAdmin }: Props) {
                 <tr key={lead.id} className="hover:bg-diamond-border/20 transition-colors cursor-pointer"
                   onClick={() => setSelectedLead(lead)}>
                   <td className="px-5 py-4">
-                    <p className="text-white font-medium">
+                    <p className="text-diamond-text font-medium">
                       {[lead.firstName, lead.lastName].filter(Boolean).join(" ") || "—"}
                     </p>
                     <p className="text-diamond-muted text-xs">{lead.email ?? lead.phone ?? "—"}</p>
@@ -141,8 +141,8 @@ export function LeadsPageClient({ leads, clients = [], isAdmin }: Props) {
           <div className="flex-1 bg-black/50" onClick={() => setSelectedLead(null)} />
           <div className="w-96 bg-diamond-surface border-l border-diamond-border overflow-y-auto">
             <div className="p-6 border-b border-diamond-border flex items-center justify-between">
-              <h2 className="font-semibold text-white">Détail du lead</h2>
-              <button onClick={() => setSelectedLead(null)} className="text-diamond-muted hover:text-white">✕</button>
+              <h2 className="font-semibold text-diamond-text">Détail du lead</h2>
+              <button onClick={() => setSelectedLead(null)} className="text-diamond-muted hover:text-diamond-text">✕</button>
             </div>
             <div className="p-6 space-y-4">
               <div>
@@ -163,7 +163,7 @@ export function LeadsPageClient({ leads, clients = [], isAdmin }: Props) {
               ].filter(([, v]) => v).map(([label, value]) => (
                 <div key={label as string} className="border-b border-diamond-border pb-3">
                   <p className="text-diamond-muted text-xs mb-1">{label}</p>
-                  <p className="text-white text-sm">{value}</p>
+                  <p className="text-diamond-text text-sm">{value}</p>
                 </div>
               ))}
             </div>
@@ -196,7 +196,7 @@ function LeadStatusBadge({ leadId, status, editable }: { leadId: string; status:
       <div className="absolute left-0 top-full mt-1 bg-diamond-surface border border-diamond-border rounded-lg overflow-hidden z-10 hidden group-hover:block min-w-[140px]">
         {STATUSES.filter(s => s !== "Tous").map(s => (
           <button key={s} onClick={() => updateStatus(s)}
-            className="w-full text-left px-3 py-2 text-sm hover:bg-diamond-border/50 text-white transition-colors">
+            className="w-full text-left px-3 py-2 text-sm hover:bg-diamond-raised text-diamond-text transition-colors">
             {statusFr[s]}
           </button>
         ))}

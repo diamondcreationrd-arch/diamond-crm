@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { signIn, getProviders } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DiamondLogo } from "@/components/DiamondLogo";
@@ -24,7 +24,7 @@ function MicrosoftIcon() {
   );
 }
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
   const params = useSearchParams();
   const [email, setEmail] = useState("");
@@ -77,7 +77,6 @@ export default function LoginPage() {
       {/* Right panel — form */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-sm">
-          {/* Mobile logo */}
           <div className="flex items-center gap-2.5 mb-10 lg:hidden">
             <DiamondLogo size={28} color="#BD9F50" />
             <span className="font-display font-bold text-diamond-text tracking-[0.06em] text-sm uppercase">Diamond Creation</span>
@@ -86,7 +85,6 @@ export default function LoginPage() {
           <h2 className="font-display font-bold text-diamond-text mb-1" style={{ fontSize: "1.6rem" }}>Connexion</h2>
           <p className="text-diamond-muted text-sm font-body mb-8">Accédez à votre portail</p>
 
-          {/* Social */}
           {(hasGoogle || hasMicrosoft) && (
             <div className="space-y-2.5 mb-6">
               {hasGoogle && (
@@ -109,7 +107,6 @@ export default function LoginPage() {
             </div>
           )}
 
-          {/* Email/password */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="label">Email</label>
@@ -137,5 +134,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-diamond-bg" />}>
+      <LoginContent />
+    </Suspense>
   );
 }

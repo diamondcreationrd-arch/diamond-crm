@@ -12,19 +12,19 @@ export default async function AdminSettings() {
   return (
     <div className="p-8 max-w-2xl">
       <div className="mb-8">
-        <h1 className="font-display font-bold text-white text-2xl tracking-wide">Paramètres</h1>
+        <h1 className="font-display font-bold text-diamond-text text-2xl tracking-wide">Paramètres</h1>
         <p className="text-diamond-muted mt-1 font-body text-sm">Configuration de Diamond Creation CRM</p>
       </div>
 
       <div className="space-y-6">
         {/* Agency info */}
         <div className="card">
-          <h2 className="font-display font-semibold text-white mb-4 tracking-wide">Informations agence</h2>
+          <h2 className="font-display font-semibold text-diamond-text mb-4 tracking-wide">Informations agence</h2>
           <div className="space-y-3 text-sm font-body">
             {[["Agence", agency?.name], ["Admin", user.name], ["Email", user.email]].map(([k, v]) => (
               <div key={k as string} className="flex justify-between py-2 border-b border-diamond-border last:border-0">
                 <span className="text-diamond-muted">{k}</span>
-                <span className="text-white">{v}</span>
+                <span className="text-diamond-text">{v}</span>
               </div>
             ))}
           </div>
@@ -35,7 +35,7 @@ export default async function AdminSettings() {
 
         {/* Webhook URLs */}
         <div className="card">
-          <h2 className="font-display font-semibold text-white mb-4 tracking-wide">URLs Webhooks</h2>
+          <h2 className="font-display font-semibold text-diamond-text mb-4 tracking-wide">URLs Webhooks</h2>
           <p className="text-diamond-muted text-sm mb-4 font-body">
             Configurez ces URLs dans vos comptes publicitaires pour recevoir les leads automatiquement.
           </p>
@@ -55,7 +55,7 @@ export default async function AdminSettings() {
 
         {/* API Keys */}
         <div className="card">
-          <h2 className="font-display font-semibold text-white mb-4 tracking-wide">Variables d'environnement</h2>
+          <h2 className="font-display font-semibold text-diamond-text mb-4 tracking-wide">Variables d'environnement</h2>
           <div className="space-y-2">
             {[
               ["RESEND_API_KEY", "Email notifications — resend.com"],

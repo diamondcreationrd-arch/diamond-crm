@@ -36,7 +36,7 @@ export default async function ClientDashboard() {
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-display font-bold text-white">Mon Dashboard</h1>
+        <h1 className="text-2xl font-display font-bold text-diamond-text">Mon Dashboard</h1>
         <p className="text-diamond-muted mt-1">Résultats des 30 derniers jours</p>
       </div>
 

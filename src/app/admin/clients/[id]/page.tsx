@@ -42,7 +42,7 @@ export default async function ClientDetail({ params }: { params: { id: string } 
             {client.businessName.charAt(0)}
           </div>
           <div>
-            <h1 className="text-2xl font-display font-bold text-white">{client.businessName}</h1>
+            <h1 className="page-title">{client.businessName}</h1>
             <p className="text-diamond-muted text-sm">{client.contactName} · {client.contactEmail}</p>
           </div>
           <span className={`ml-2 ${client.isActive ? "badge-green" : "badge-red"}`}>
@@ -66,7 +66,7 @@ export default async function ClientDetail({ params }: { params: { id: string } 
           {/* Campaigns */}
           <div className="card">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="font-semibold text-white">Campagnes</h2>
+              <h2 className="font-semibold text-diamond-text">Campagnes</h2>
               <Link href={`/admin/campaigns?clientId=${client.id}`} className="text-diamond-gold text-sm hover:underline">Gérer</Link>
             </div>
             {client.campaigns.length === 0
@@ -94,7 +94,7 @@ export default async function ClientDetail({ params }: { params: { id: string } 
           {/* Landing pages */}
           <div className="card">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-white">Landing Pages</h2>
+              <h2 className="font-semibold text-diamond-text">Landing Pages</h2>
               <Link href={`/admin/landing-pages?clientId=${client.id}`} className="text-diamond-gold text-sm hover:underline">Gérer</Link>
             </div>
             {client.landingPages.length === 0
@@ -115,7 +115,7 @@ export default async function ClientDetail({ params }: { params: { id: string } 
 
           {/* Users */}
           <div className="card">
-            <h2 className="font-semibold text-white mb-4">Accès portail</h2>
+            <h2 className="font-semibold text-diamond-text mb-4">Accès portail</h2>
             {client.users.map(u => (
               <div key={u.id} className="py-2 border-b border-diamond-border last:border-0">
                 <p className="text-white text-sm">{u.name}</p>
@@ -130,7 +130,7 @@ export default async function ClientDetail({ params }: { params: { id: string } 
           {/* Notifications */}
           {client.notifications[0] && (
             <div className="card">
-              <h2 className="font-semibold text-white mb-4">Notifications</h2>
+              <h2 className="font-semibold text-diamond-text mb-4">Notifications</h2>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-diamond-muted">Email</span>

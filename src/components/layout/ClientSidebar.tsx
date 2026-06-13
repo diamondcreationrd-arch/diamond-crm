@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { LayoutDashboard, Target, TrendingUp, Globe, Settings, LogOut, Sparkles } from "lucide-react";
+import { LayoutDashboard, Target, TrendingUp, Globe, Settings, LogOut, Sparkles, Plug } from "lucide-react";
 import { DiamondLogo } from "@/components/DiamondLogo";
 
 const nav = [
@@ -11,6 +11,7 @@ const nav = [
   { href: "/client/campaigns", label: "Campagnes", icon: TrendingUp },
   { href: "/client/landing-pages", label: "Landing Pages", icon: Globe },
   { href: "/client/ai", label: "IA & Rapports", icon: Sparkles },
+  { href: "/client/integrations", label: "Intégrations", icon: Plug },
 ];
 
 interface Props { clientName: string; brandColor?: string; }

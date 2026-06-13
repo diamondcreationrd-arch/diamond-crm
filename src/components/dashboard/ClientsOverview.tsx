@@ -14,7 +14,7 @@ export function ClientsOverview({ clients }: { clients: Client[] }) {
   return (
     <div className="card">
       <div className="flex items-center justify-between mb-5">
-        <h2 className="font-semibold text-white">Clients</h2>
+        <h2 className="font-semibold text-diamond-text">Clients</h2>
         <Link href="/admin/clients" className="text-diamond-gold text-sm hover:underline">
           Voir tous
         </Link>
