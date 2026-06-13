@@ -4,70 +4,95 @@
 
 @layer base {
   :root {
-    --diamond-black: #171510;
-    --diamond-gold: #BD9F50;
-    --diamond-gold-light: #D4B96A;
-    --diamond-surface: #1E1B14;
-    --diamond-border: #2A2518;
+    --diamond-bg:       #F7F5F0;
+    --diamond-surface:  #FFFFFF;
+    --diamond-raised:   #F0EDE5;
+    --diamond-border:   #E5E1D8;
+    --diamond-text:     #18160F;
+    --diamond-muted:    #857E6A;
+    --diamond-gold:     #BD9F50;
+    --diamond-gold-bg:  #FBF7EE;
   }
 
   * { box-sizing: border-box; }
 
   body {
-    background-color: var(--diamond-black);
-    color: #ffffff;
+    background-color: var(--diamond-bg);
+    color: var(--diamond-text);
     font-family: "DM Sans", Inter, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, h4, h5 {
+  h1, h2, h3, h4 {
     font-family: "Funnel Display", Georgia, serif;
+    color: var(--diamond-text);
   }
 
   /* Scrollbar */
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: var(--diamond-black); }
-  ::-webkit-scrollbar-thumb { background: var(--diamond-border); border-radius: 3px; }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--diamond-border); border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--diamond-gold); }
+
+  /* Selection */
+  ::selection { background: rgba(189,159,80,0.15); }
 }
 
 @layer components {
   .btn-gold {
-    @apply bg-diamond-gold hover:bg-diamond-gold-light text-diamond-black font-semibold px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer;
+    @apply bg-diamond-gold hover:bg-diamond-gold-dark text-white font-semibold px-4 py-2 rounded-xl transition-all duration-150 cursor-pointer shadow-sm hover:shadow-md;
   }
 
   .btn-outline {
-    @apply border border-diamond-border hover:border-diamond-gold text-white hover:text-diamond-gold px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer;
+    @apply border border-diamond-border hover:border-diamond-gold text-diamond-text hover:text-diamond-gold bg-diamond-surface px-4 py-2 rounded-xl transition-all duration-150 cursor-pointer;
+  }
+
+  .btn-ghost {
+    @apply text-diamond-muted hover:text-diamond-text hover:bg-diamond-raised px-3 py-2 rounded-lg transition-all duration-150 cursor-pointer text-sm;
   }
 
   .card {
-    @apply bg-diamond-surface border border-diamond-border rounded-xl p-6;
+    @apply bg-diamond-surface rounded-2xl p-6 shadow-card border border-diamond-border/60;
+  }
+
+  .card-flat {
+    @apply bg-diamond-surface rounded-2xl p-6 border border-diamond-border;
   }
 
   .input {
-    @apply bg-diamond-black border border-diamond-border rounded-lg px-4 py-2.5 text-white placeholder-diamond-muted focus:outline-none focus:border-diamond-gold transition-colors w-full;
+    @apply bg-diamond-surface border border-diamond-border rounded-xl px-4 py-2.5 text-diamond-text placeholder-diamond-muted focus:outline-none focus:border-diamond-gold focus:shadow-gold transition-all w-full text-sm;
   }
 
   .label {
-    @apply text-sm text-diamond-muted font-medium mb-1.5 block;
+    @apply text-xs text-diamond-muted font-medium mb-1.5 block tracking-wide uppercase;
   }
 
   .stat-card {
-    @apply card flex flex-col gap-2;
+    @apply card flex flex-col gap-1;
   }
 
-  .badge-green {
-    @apply bg-emerald-900/40 text-emerald-400 text-xs px-2 py-0.5 rounded-full;
+  .badge {
+    @apply text-xs px-2.5 py-1 rounded-full font-medium;
   }
 
-  .badge-red {
-    @apply bg-red-900/40 text-red-400 text-xs px-2 py-0.5 rounded-full;
-  }
+  .badge-green  { @apply badge bg-emerald-50 text-emerald-700 border border-emerald-200; }
+  .badge-red    { @apply badge bg-red-50 text-red-700 border border-red-200; }
+  .badge-gold   { @apply badge bg-diamond-gold-bg text-diamond-gold-dark border border-diamond-gold/30; }
+  .badge-gray   { @apply badge bg-diamond-raised text-diamond-muted border border-diamond-border; }
+  .badge-blue   { @apply badge bg-blue-50 text-blue-700 border border-blue-200; }
 
-  .badge-gold {
-    @apply bg-diamond-gold/20 text-diamond-gold text-xs px-2 py-0.5 rounded-full;
+  /* Table */
+  .table-row-hover { @apply hover:bg-diamond-bg transition-colors cursor-pointer; }
+  
+  /* Page header */
+  .page-header {
+    @apply mb-8;
   }
-
-  .badge-gray {
-    @apply bg-diamond-border text-diamond-muted text-xs px-2 py-0.5 rounded-full;
+  .page-title {
+    @apply font-display font-bold text-diamond-text tracking-tight;
+    font-size: 1.75rem;
+  }
+  .page-subtitle {
+    @apply text-diamond-muted text-sm font-body mt-1;
   }
 }

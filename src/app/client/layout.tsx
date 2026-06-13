@@ -10,7 +10,7 @@ export default async function ClientLayout({ children }: { children: React.React
   const user = session.user as any;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-diamond-black">
+    <div className="flex h-screen overflow-hidden bg-diamond-bg">
       <ClientSidebar clientName={user.clientName} brandColor={user.clientColor} />
       <main className="flex-1 overflow-y-auto">
         {children}

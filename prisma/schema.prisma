@@ -39,13 +39,15 @@ model Client {
   landingPages   LandingPage[]
   notifications  NotificationSetting[]
   adAccounts     AdAccount[]
+  subscription   Subscription?
+  automations    AutomationRule[]
 }
 
 // ─── USERS ───────────────────────────────────────────────────────────────────
 model User {
   id           String    @id @default(cuid())
   email        String    @unique
-  password     String
+  password     String?
   name         String
   role         UserRole  @default(CLIENT)
   agencyId     String?
@@ -257,4 +259,100 @@ model AdSpendSnapshot {
 
   @@unique([campaignId, date])
   @@index([campaignId])
+}
+
+// ─── PLANS & SUBSCRIPTIONS ────────────────────────────────────────────────────
+model Plan {
+  id              String   @id @default(cuid())
+  name            String   // "Starter", "Pro", "Scale", "Agence"
+  slug            String   @unique // "starter", "pro", "scale", "agence"
+  description     String?
+  priceMonthly    Float    // CAD
+  stripePriceId   String?  // Stripe price ID
+  maxClients      Int      @default(2)
+  maxLeadsPerMonth Int     @default(500)
+  aiReports       Boolean  @default(false)
+  automations     Boolean  @default(false)
+  whiteLabel      Boolean  @default(false)
+  smsEnabled      Boolean  @default(false)
+  apiAccess       Boolean  @default(false)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  subscriptions   Subscription[]
+}
+
+model Subscription {
+  id                  String             @id @default(cuid())
+  clientId            String             @unique
+  client              Client             @relation(fields: [clientId], references: [id])
+  planId              String
+  plan                Plan               @relation(fields: [planId], references: [id])
+  status              SubscriptionStatus @default(ACTIVE)
+  stripeSubscriptionId String?
+  stripeCustomerId     String?
+  currentPeriodStart  DateTime           @default(now())
+  currentPeriodEnd    DateTime
+  cancelAtPeriodEnd   Boolean            @default(false)
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELLED
+  TRIALING
+  PAUSED
+}
+
+// ─── AUTOMATIONS ──────────────────────────────────────────────────────────────
+model AutomationRule {
+  id          String          @id @default(cuid())
+  clientId    String
+  client      Client          @relation(fields: [clientId], references: [id])
+  name        String
+  isActive    Boolean         @default(true)
+  trigger     AutomationTrigger
+  triggerConfig Json          // { source: "META", status: "NEW", campaignId: "..." }
+  actions     AutomationAction[]
+  logs        AutomationLog[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model AutomationAction {
+  id           String        @id @default(cuid())
+  ruleId       String
+  rule         AutomationRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  order        Int           @default(0)
+  type         ActionType
+  config       Json          // { to: "...", subject: "...", message: "..." }
+  delayMinutes Int           @default(0)
+}
+
+model AutomationLog {
+  id        String         @id @default(cuid())
+  ruleId    String
+  rule      AutomationRule @relation(fields: [ruleId], references: [id])
+  leadId    String?
+  status    String         // "success" | "error"
+  message   String?
+  createdAt DateTime       @default(now())
+}
+
+enum AutomationTrigger {
+  NEW_LEAD
+  LEAD_STATUS_CHANGED
+  LEAD_FROM_SOURCE
+  CAMPAIGN_STARTED
+  DAILY_SUMMARY
+}
+
+enum ActionType {
+  SEND_EMAIL
+  SEND_SMS
+  UPDATE_LEAD_STATUS
+  NOTIFY_WEBHOOK
+  WAIT
+  AI_QUALIFY_LEAD
 }
