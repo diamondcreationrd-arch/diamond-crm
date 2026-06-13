@@ -20,6 +20,11 @@ export async function POST(req: NextRequest) {
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 });
 
+  // OAuth users have no password
+  if (!user.password) {
+    return NextResponse.json({ error: "Compte OAuth — connexion via Google/Microsoft, pas de mot de passe." }, { status: 400 });
+  }
+
   const valid = await bcrypt.compare(currentPassword, user.password);
   if (!valid) return NextResponse.json({ error: "Mot de passe actuel incorrect" }, { status: 400 });
 
