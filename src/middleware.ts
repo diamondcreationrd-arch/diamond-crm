@@ -6,13 +6,18 @@ export default withAuth(
     const token = req.nextauth.token;
     const pathname = req.nextUrl.pathname;
 
-    // Admin routes — only SUPER_ADMIN
-    if (pathname.startsWith("/admin") && token?.role !== "SUPER_ADMIN") {
+    // If no role on token, kick to login (corrupted session)
+    if (!token?.role) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+
+    // Admin routes — SUPER_ADMIN only
+    if (pathname.startsWith("/admin") && token.role !== "SUPER_ADMIN") {
       return NextResponse.redirect(new URL("/client", req.url));
     }
 
-    // Client routes — only CLIENT role
-    if (pathname.startsWith("/client") && token?.role !== "CLIENT") {
+    // Client routes — CLIENT only
+    if (pathname.startsWith("/client") && token.role !== "CLIENT") {
       return NextResponse.redirect(new URL("/admin", req.url));
     }
 
@@ -22,9 +27,17 @@ export default withAuth(
     callbacks: {
       authorized: ({ token }) => !!token,
     },
+    pages: {
+      signIn: "/login",
+    },
   }
 );
 
 export const config = {
-  matcher: ["/admin/:path*", "/client/:path*"],
+  matcher: [
+    "/admin",
+    "/admin/:path*",
+    "/client",
+    "/client/:path*",
+  ],
 };
