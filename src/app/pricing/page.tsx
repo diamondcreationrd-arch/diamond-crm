@@ -1,10 +1,12 @@
 import { Check, Sparkles, Zap } from "lucide-react";
 import Link from "next/link";
 import { DiamondLogo } from "@/components/DiamondLogo";
+import { PricingButton } from "@/components/PricingButton";
 
 const plans = [
   {
     name: "Starter",
+    slug: "starter",
     price: 29,
     desc: "Pour démarrer et tester la plateforme",
     color: "#6B7280",
@@ -21,6 +23,7 @@ const plans = [
   },
   {
     name: "Pro",
+    slug: "pro",
     price: 79,
     desc: "Pour les agences en croissance",
     color: "#BD9F50",
@@ -40,6 +43,7 @@ const plans = [
   },
   {
     name: "Scale",
+    slug: "scale",
     price: 149,
     desc: "Pour les agences établies",
     color: "#9A7E3A",
@@ -59,6 +63,7 @@ const plans = [
   },
   {
     name: "Agence",
+    slug: "agence",
     price: 297,
     desc: "Pour les grandes agences & white-label",
     color: "#18160F",
@@ -134,14 +139,7 @@ export default function PricingPage() {
                   <p className="text-emerald-700 text-xs font-body text-center font-medium">✓ 30 jours gratuits — aucune carte</p>
                 </div>
               )}
-              <Link href="/login"
-                className={`flex items-center justify-center w-full py-2.5 rounded-xl text-sm font-body font-semibold transition-all mb-6 ${
-                  plan.popular
-                    ? "bg-diamond-gold text-white hover:bg-diamond-gold-dark shadow-sm"
-                    : "border border-diamond-border text-diamond-text hover:border-diamond-gold hover:text-diamond-gold bg-white"
-                }`}>
-                {plan.cta}
-              </Link>
+              <PricingButton planSlug={plan.slug} popular={plan.popular} cta={plan.cta} />
               <ul className="space-y-2.5">
                 {plan.features.map((f) => (
                   <li key={f} className="flex items-start gap-2 text-sm font-body text-diamond-text">
