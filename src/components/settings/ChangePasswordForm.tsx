@@ -41,7 +41,7 @@ export function ChangePasswordForm() {
           <Lock size={15} className="text-diamond-gold" />
         </div>
         <div>
-          <h2 className="font-semibold text-white text-sm">Changer le mot de passe</h2>
+          <h2 className="font-semibold text-diamond-text text-sm">Changer le mot de passe</h2>
           <p className="text-diamond-muted text-xs mt-0.5">Sécurisez votre accès</p>
         </div>
       </div>
@@ -69,7 +69,7 @@ export function ChangePasswordForm() {
               required
             />
             <button type="button" onClick={() => setShowCurrent(!showCurrent)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-diamond-muted hover:text-white transition-colors">
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-diamond-muted hover:text-diamond-text transition-colors">
               {showCurrent ? <EyeOff size={15}/> : <Eye size={15}/>}
             </button>
           </div>
@@ -87,13 +87,13 @@ export function ChangePasswordForm() {
               required
             />
             <button type="button" onClick={() => setShowNext(!showNext)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-diamond-muted hover:text-white transition-colors">
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-diamond-muted hover:text-diamond-text transition-colors">
               {showNext ? <EyeOff size={15}/> : <Eye size={15}/>}
             </button>
           </div>
           {next.length > 0 && (
             <div className="flex gap-1 mt-1.5">
-              {{[4,6,8,10].map((n: number) => (
+              {[4, 6, 8, 10].map((n: number) => (
                 <div key={n} className={`h-1 flex-1 rounded-full transition-colors ${
                   next.length >= n ? "bg-diamond-gold" : "bg-diamond-border"
                 }`}/>
