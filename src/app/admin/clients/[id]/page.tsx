@@ -52,7 +52,7 @@ export default async function ClientDetail({ params }: { params: { id: string } 
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         <StatCard title="Leads ce mois" value={leadsThisMonth} icon={Target} />
         <StatCard title="Leads total" value={leadsTotal} icon={TrendingUp} />
         <StatCard title="Campagnes" value={client.campaigns.length} icon={DollarSign} />
