@@ -35,20 +35,21 @@ export default async function ClientDashboard() {
 
   return (
     <div className="p-4 md:p-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-display font-bold text-diamond-text">Mon Dashboard</h1>
-        <p className="text-diamond-muted mt-1">Résultats des 30 derniers jours</p>
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-xl md:text-2xl font-display font-bold text-diamond-text">Mon Dashboard</h1>
+        <p className="text-diamond-muted text-sm mt-1">Résultats des 30 derniers jours</p>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      {/* Stats grid — 2 cols mobile, 4 desktop */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
         <StatCard title="Leads ce mois" value={leadsThisMonth} icon={Target} />
         <StatCard title="Leads total" value={leadsTotal} icon={TrendingUp} />
         <StatCard title="Convertis" value={leadsConverted} icon={CheckCircle} />
         <StatCard title="Coût / Lead" value={cpl === "—" ? "—" : `$${cpl}`} icon={DollarSign} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="col-span-1 lg:col-span-2">
           <RecentLeadsTable leads={recentLeads} />
         </div>
         <div>
