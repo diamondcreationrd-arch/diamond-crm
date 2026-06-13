@@ -27,30 +27,37 @@ export async function POST(req: NextRequest) {
       ? `\n\nContexte agence: ${body.context.clients?.length ?? 0} clients actifs, ${body.context.totalLeads ?? 0} leads total, ${body.context.totalCampaigns ?? 0} campagnes.`
       : "";
 
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
     let reply = "";
 
     if (apiKey) {
       try {
-        const res = await fetch("https://api.anthropic.com/v1/messages", {
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
           method: "POST",
-          headers: { "x-api-key": apiKey, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+          headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
           body: JSON.stringify({
-            model: "claude-haiku-4-5-20251001",
+            model: "llama-3.3-70b-versatile",
             max_tokens: 1000,
-            system: systemPrompt,
-            messages: [{ role: "user", content: body.prompt + contextStr }],
+            messages: [
+              { role: "system", content: systemPrompt },
+              { role: "user", content: body.prompt + contextStr },
+            ],
           }),
         });
-        if (res.ok) {
-          const data = await res.json();
-          reply = data.content[0]?.text ?? "";
+        const raw = await res.text();
+        if (!res.ok) {
+          reply = "Erreur " + res.status + ": " + raw.slice(0, 200);
+        } else {
+          const data = JSON.parse(raw);
+          reply = data.choices[0]?.message?.content ?? "";
         }
-      } catch (_) {}
+      } catch (e: any) {
+        reply = `Erreur API: ${e.message}`;
+      }
     }
 
     if (!reply) {
-      reply = `[Mode démo — ajoutez ANTHROPIC_API_KEY dans Railway pour activer l'IA]\n\nVotre question : "${body.prompt}"\n\nEn tant que ${AGENT_SYSTEM_PROMPTS[body.agentType]?.split(".")[0]}, voici une réponse générique : consultez vos données CRM, identifiez les tendances clés, et agissez sur les opportunités immédiates.`;
+      reply = `[Mode démo — ajoutez GROQ_API_KEY dans Railway pour activer l'IA]\n\nVotre question : "${body.prompt}"\n\nEn tant que ${AGENT_SYSTEM_PROMPTS[body.agentType]?.split(".")[0]}, voici une réponse générique : consultez vos données CRM, identifiez les tendances clés, et agissez sur les opportunités immédiates.`;
     }
 
     return NextResponse.json({ insights: reply });
@@ -83,25 +90,33 @@ export async function POST(req: NextRequest) {
 
   const dataContext = `Client: ${client?.businessName}\nLeads ce mois: ${recentLeads.length}\nTotal leads: ${leads.length}\nTaux conversion: ${conversionRate}%\nTaux qualification: ${qualificationRate}%\nPar source: ${JSON.stringify(bySource)}\nPar statut: ${JSON.stringify(byStatus)}\nCampagnes: ${JSON.stringify(campaigns.map((c: any) => ({ name: c.name, platform: c.platform, spend: c.totalSpend, leads: c.totalLeads })))}`;
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   let report = "";
 
   if (apiKey) {
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
-        headers: { "x-api-key": apiKey, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+        headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
+          model: "llama-3.3-70b-versatile",
           max_tokens: 1200,
-          messages: [{ role: "user", content: `Tu es un expert en marketing digital pour une agence québécoise. Analyse ces données CRM et génère un rapport d'insights en français, concis et actionnable. Structure: 1) Résumé performance, 2) Points forts, 3) Axes d'amélioration avec recommandations concrètes, 4) Action prioritaire cette semaine.\n\n${dataContext}` }],
+          messages: [
+            { role: "system", content: "Tu es un expert en marketing digital pour une agence québécoise. Génère des rapports d'insights en français, concis et actionnables." },
+            { role: "user", content: `Analyse ces données CRM et génère un rapport d'insights. Structure: 1) Résumé performance, 2) Points forts, 3) Axes d'amélioration avec recommandations concrètes, 4) Action prioritaire cette semaine.\n\n${dataContext}` },
+          ],
         }),
       });
-      if (res.ok) {
-        const data = await res.json();
-        report = data.content[0]?.text ?? "";
+      const raw = await res.text();
+      if (!res.ok) {
+        report = "Erreur " + res.status + ": " + raw.slice(0, 200);
+      } else {
+        const data = JSON.parse(raw);
+        report = data.choices[0]?.message?.content ?? "";
       }
-    } catch (_) {}
+    } catch (e: any) {
+      report = `Erreur API: ${e.message}`;
+    }
   }
 
   if (!report) {
