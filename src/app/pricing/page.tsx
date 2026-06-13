@@ -82,7 +82,7 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-diamond-bg">
       {/* Nav */}
-      <nav className="flex items-center justify-between px-8 py-5 border-b border-diamond-border bg-white/80 backdrop-blur-sm sticky top-0 z-10">
+      <nav className="flex items-center justify-between px-4 md:px-8 py-4 md:py-5 border-b border-diamond-border bg-white/80 backdrop-blur-sm sticky top-0 z-10">
         <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
           <DiamondLogo size={26} color="#BD9F50" />
           <span className="font-display font-bold text-diamond-text tracking-[0.06em] text-sm uppercase">Diamond Creation</span>
@@ -94,7 +94,7 @@ export default function PricingPage() {
       </nav>
 
       {/* Hero */}
-      <div className="text-center py-20 px-8 max-w-3xl mx-auto">
+      <div className="text-center py-12 md:py-20 px-4 md:px-8 max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 bg-diamond-gold-bg border border-diamond-gold/30 rounded-full px-4 py-1.5 text-diamond-gold-dark text-xs font-body font-medium mb-6">
           <Sparkles size={12} />
           Essai gratuit 30 jours · Aucune carte requise
@@ -108,7 +108,7 @@ export default function PricingPage() {
       </div>
 
       {/* Plans */}
-      <div className="max-w-6xl mx-auto px-8 pb-24 grid grid-cols-4 gap-5 items-start">
+      <div className="max-w-6xl mx-auto px-4 md:px-8 pb-16 md:pb-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-start">
         {plans.map((plan) => (
           <div key={plan.name}
             className={`bg-white rounded-2xl border overflow-hidden transition-shadow hover:shadow-card-hover ${
@@ -156,7 +156,7 @@ export default function PricingPage() {
       </div>
 
       {/* vs GHL */}
-      <div className="max-w-3xl mx-auto px-8 pb-24 text-center">
+      <div className="max-w-3xl mx-auto px-4 md:px-8 pb-16 md:pb-24 text-center">
         <p className="text-diamond-muted text-sm font-body">
           GoHighLevel coûte <span className="line-through">97$–297$</span> USD/mois avec des fonctions limitées. Diamond Creation CRM offre plus — en français, conçu pour les agences québécoises — à partir de 29$ CAD.
         </p>
