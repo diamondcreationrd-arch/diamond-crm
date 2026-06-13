@@ -3,12 +3,60 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
+const AGENT_SYSTEM_PROMPTS: Record<string, string> = {
+  marketing: "Tu es un expert en marketing digital pour agences québécoises. Tu aides avec la stratégie de contenu, les campagnes, le positionnement et la croissance. Réponds en français, de façon concrète et actionnables.",
+  seo: "Tu es un expert SEO spécialisé pour les PME locales au Québec. Tu aides avec le référencement naturel, les mots-clés locaux, l'audit et Google My Business. Réponds en français, avec des étapes précises.",
+  ads: "Tu es un expert en publicité digitale (Meta Ads, Google Ads, TikTok Ads). Tu optimises les ROAS, réduis les CPL et structures des campagnes performantes. Réponds en français avec des chiffres concrets.",
+  analytics: "Tu es un analyste data spécialisé en marketing digital. Tu interprètes les KPIs, crées des rapports clairs et identifies les insights clés. Réponds en français de façon pédagogique.",
+  crm: "Tu es un expert en gestion de la relation client et en lead nurturing. Tu aides avec les pipelines de vente, la qualification de leads et la rétention client. Réponds en français avec des scripts et templates prêts à l'emploi.",
+  growth: "Tu es un expert en growth hacking et stratégie de croissance pour agences marketing. Tu aides à acquérir de nouveaux clients, fidéliser et augmenter le LTV. Réponds en français avec des tactiques concrètes.",
+  default: "Tu es un expert en marketing digital pour une agence québécoise. Analyse les données CRM et génère des insights actionnables en français.",
+};
+
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const user = session.user as any;
   const body = await req.json();
+
+  // Agent chat mode (has prompt + agentType)
+  if (body.prompt && body.agentType) {
+    const systemPrompt = AGENT_SYSTEM_PROMPTS[body.agentType] ?? AGENT_SYSTEM_PROMPTS.default;
+    const contextStr = body.context
+      ? `\n\nContexte agence: ${body.context.clients?.length ?? 0} clients actifs, ${body.context.totalLeads ?? 0} leads total, ${body.context.totalCampaigns ?? 0} campagnes.`
+      : "";
+
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    let reply = "";
+
+    if (apiKey) {
+      try {
+        const res = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: { "x-api-key": apiKey, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+          body: JSON.stringify({
+            model: "claude-haiku-4-5-20251001",
+            max_tokens: 1000,
+            system: systemPrompt,
+            messages: [{ role: "user", content: body.prompt + contextStr }],
+          }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          reply = data.content[0]?.text ?? "";
+        }
+      } catch (_) {}
+    }
+
+    if (!reply) {
+      reply = `[Mode démo — ajoutez ANTHROPIC_API_KEY dans Railway pour activer l'IA]\n\nVotre question : "${body.prompt}"\n\nEn tant que ${AGENT_SYSTEM_PROMPTS[body.agentType]?.split(".")[0]}, voici une réponse générique : consultez vos données CRM, identifiez les tendances clés, et agissez sur les opportunités immédiates.`;
+    }
+
+    return NextResponse.json({ insights: reply });
+  }
+
+  // Report mode (clientId-based)
   const clientId = user.role === "SUPER_ADMIN" ? body.clientId : user.clientId;
   if (!clientId) return NextResponse.json({ error: "clientId required" }, { status: 400 });
 
@@ -22,19 +70,18 @@ export async function POST(req: NextRequest) {
     }),
     prisma.campaign.findMany({
       where: { clientId },
-      select: { name: true, platform: true, status: true, budget: true, totalSpend: true, totalLeads: true, totalConversions: true },
+      select: { name: true, platform: true, status: true, totalSpend: true, totalLeads: true, totalConversions: true },
     }),
   ]);
 
-  const now = new Date();
-  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
   const recentLeads = leads.filter((l: any) => new Date(l.createdAt) > thirtyDaysAgo);
   const bySource = recentLeads.reduce((acc: any, l: any) => { acc[l.source] = (acc[l.source] || 0) + 1; return acc; }, {});
   const byStatus = leads.reduce((acc: any, l: any) => { acc[l.status] = (acc[l.status] || 0) + 1; return acc; }, {});
   const conversionRate = leads.length > 0 ? ((leads.filter((l: any) => l.isConverted).length / leads.length) * 100).toFixed(1) : "0";
   const qualificationRate = leads.length > 0 ? ((leads.filter((l: any) => l.isQualified).length / leads.length) * 100).toFixed(1) : "0";
 
-  const dataContext = `Client: ${client?.businessName}\nLeads ce mois: ${recentLeads.length}\nTotal leads: ${leads.length}\nTaux conversion: ${conversionRate}%\nTaux qualification: ${qualificationRate}%\nPar source: ${JSON.stringify(bySource)}\nPar statut: ${JSON.stringify(byStatus)}\nCampagnes: ${JSON.stringify(campaigns.map((c: any) => ({ name: c.name, platform: c.platform, status: c.status, spend: c.totalSpend, leads: c.totalLeads })))}`;
+  const dataContext = `Client: ${client?.businessName}\nLeads ce mois: ${recentLeads.length}\nTotal leads: ${leads.length}\nTaux conversion: ${conversionRate}%\nTaux qualification: ${qualificationRate}%\nPar source: ${JSON.stringify(bySource)}\nPar statut: ${JSON.stringify(byStatus)}\nCampagnes: ${JSON.stringify(campaigns.map((c: any) => ({ name: c.name, platform: c.platform, spend: c.totalSpend, leads: c.totalLeads })))}`;
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   let report = "";
@@ -47,7 +94,7 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           model: "claude-haiku-4-5-20251001",
           max_tokens: 1200,
-          messages: [{ role: "user", content: `Tu es un expert en marketing digital pour une agence québécoise. Analyse ces données CRM et génère un rapport d'insights en français, concis et actionnable. Structure: 1) Résumé performance (2-3 phrases), 2) Points forts (2 bullets), 3) Axes d'amélioration (2-3 recommandations concrètes avec des chiffres), 4) Action prioritaire cette semaine. Sois direct et précis.\n\n${dataContext}` }],
+          messages: [{ role: "user", content: `Tu es un expert en marketing digital pour une agence québécoise. Analyse ces données CRM et génère un rapport d'insights en français, concis et actionnable. Structure: 1) Résumé performance, 2) Points forts, 3) Axes d'amélioration avec recommandations concrètes, 4) Action prioritaire cette semaine.\n\n${dataContext}` }],
         }),
       });
       if (res.ok) {
@@ -59,8 +106,8 @@ export async function POST(req: NextRequest) {
 
   if (!report) {
     const topSource = Object.entries(bySource).sort((a: any, b: any) => b[1] - a[1])[0];
-    report = `**Résumé de performance**\n${client?.businessName} a généré ${recentLeads.length} leads ce mois avec un taux de conversion de ${conversionRate}%. ${recentLeads.length > 10 ? "La performance est stable." : "Le volume de leads reste faible — activation de nouvelles sources recommandée."}\n\n**Points forts**\n• ${topSource ? `Source principale : ${topSource[0]} — ${topSource[1]} leads ce mois` : "Diversification des sources en cours"}\n• Tracking opérationnel sur toutes les plateformes actives\n\n**Axes d'amélioration**\n• Réduire le délai de contact des nouveaux leads (objectif : <2h)\n• Lancer des tests A/B sur les landing pages pour améliorer le taux de conversion\n• Activer les relances automatiques par SMS pour les leads qualifiés non convertis\n\n**Action prioritaire cette semaine**\nContacter les ${byStatus["NEW"] ?? 0} leads au statut "Nouveau" — chaque heure de délai réduit les chances de conversion de 10%.`;
+    report = `**Résumé de performance**\n${client?.businessName} a généré ${recentLeads.length} leads ce mois avec un taux de conversion de ${conversionRate}%.\n\n**Points forts**\n• ${topSource ? `Source principale : ${topSource[0]} (${topSource[1]} leads)` : "Tracking opérationnel"}\n• ${campaigns.length} campagne(s) active(s)\n\n**Axes d'amélioration**\n• Réduire le délai de contact (<2h par lead)\n• Tester des landing pages A/B\n• Activer les relances automatiques\n\n**Action prioritaire**\nContacter les ${byStatus["NEW"] ?? 0} leads au statut "Nouveau" — chaque heure de délai réduit les chances de conversion de 10%.`;
   }
 
-  return NextResponse.json({ report, data: { leads: leads.length, recentLeads: recentLeads.length, conversionRate, qualificationRate, bySource, byStatus, campaigns: campaigns.length } });
+  return NextResponse.json({ report, insights: report });
 }

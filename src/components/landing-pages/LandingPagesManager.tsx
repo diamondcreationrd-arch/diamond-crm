@@ -147,7 +147,7 @@ export function LandingPagesManager({ pages: initialPages, clientId, baseUrl, is
                 className="btn-outline py-1.5 px-3 text-xs flex items-center gap-1.5">
                 {copied === page.slug ? <><CheckCircle size={12} className="text-emerald-400" /> Copié!</> : <><Copy size={12} /> Lien</>}
               </button>
-              <a href={`/l/${page.slug}`} target="_blank"
+              <a href={`/l/${page.slug}/preview`} target="_blank"
                 className="btn-outline py-1.5 px-3 text-xs flex items-center gap-1.5">
                 <ExternalLink size={12} /> Preview
               </a>
