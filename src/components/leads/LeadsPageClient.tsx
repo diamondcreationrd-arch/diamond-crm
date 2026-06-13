@@ -60,7 +60,7 @@ export function LeadsPageClient({ leads, clients = [], isAdmin }: Props) {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-display font-bold text-diamond-text">Leads</h1>
@@ -89,7 +89,7 @@ export function LeadsPageClient({ leads, clients = [], isAdmin }: Props) {
       </div>
 
       {/* Table */}
-      <div className="card overflow-hidden p-0">
+      <div className="card overflow-hidden p-0"><div className="overflow-x-auto">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -132,6 +132,7 @@ export function LeadsPageClient({ leads, clients = [], isAdmin }: Props) {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 

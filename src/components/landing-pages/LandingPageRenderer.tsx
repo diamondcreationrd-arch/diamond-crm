@@ -190,7 +190,7 @@ export function LandingPageRenderer({ page, utms }: Props) {
         </div>
 
         <div className="max-w-md mx-auto">
-          <div className="p-8 rounded-2xl" style={{
+          <div className="p-4 md:p-8 rounded-2xl" style={{
             background: "#0a0906",
             border: `1px solid ${brandColor}30`,
             boxShadow: `0 0 60px ${brandColor}10`,

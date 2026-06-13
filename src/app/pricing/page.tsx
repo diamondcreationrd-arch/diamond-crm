@@ -83,11 +83,14 @@ export default function PricingPage() {
     <div className="min-h-screen bg-diamond-bg">
       {/* Nav */}
       <nav className="flex items-center justify-between px-8 py-5 border-b border-diamond-border bg-white/80 backdrop-blur-sm sticky top-0 z-10">
-        <div className="flex items-center gap-2.5">
+        <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
           <DiamondLogo size={26} color="#BD9F50" />
           <span className="font-display font-bold text-diamond-text tracking-[0.06em] text-sm uppercase">Diamond Creation</span>
+        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/" className="text-diamond-muted text-sm hover:text-diamond-text transition-colors font-body">Accueil</Link>
+          <Link href="/login" className="btn-gold text-sm px-5 py-2">Se connecter</Link>
         </div>
-        <Link href="/login" className="btn-gold text-sm px-5 py-2">Se connecter</Link>
       </nav>
 
       {/* Hero */}

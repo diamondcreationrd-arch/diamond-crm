@@ -33,7 +33,7 @@ export default async function ClientDetail({ params }: { params: { id: string } 
   const cpl = leadsTotal > 0 && totalSpend > 0 ? `$${(totalSpend / leadsTotal).toFixed(2)}` : "—";
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8">
       <div className="flex items-center gap-3 mb-8">
         <Link href="/admin/clients" className="text-diamond-muted hover:text-white"><ArrowLeft size={20} /></Link>
         <div className="flex items-center gap-3 flex-1">
@@ -52,14 +52,14 @@ export default async function ClientDetail({ params }: { params: { id: string } 
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         <StatCard title="Leads ce mois" value={leadsThisMonth} icon={Target} />
         <StatCard title="Leads total" value={leadsTotal} icon={TrendingUp} />
         <StatCard title="Campagnes" value={client.campaigns.length} icon={DollarSign} />
         <StatCard title="Coût / Lead" value={cpl} icon={Globe} />
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div className="col-span-2 space-y-6">
           <RecentLeadsTable leads={leads} />
 

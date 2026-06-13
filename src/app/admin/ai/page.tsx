@@ -43,7 +43,7 @@ export default function AIInsightsPage() {
   }
 
   return (
-    <div className="p-8 max-w-4xl">
+    <div className="p-4 md:p-8 max-w-4xl">
       <div className="mb-8 flex items-center gap-4">
         <div className="w-10 h-10 rounded-xl bg-diamond-gold/15 flex items-center justify-center">
           <Sparkles size={20} className="text-diamond-gold" />

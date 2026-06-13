@@ -27,7 +27,7 @@ export default async function AdminCampaigns({ searchParams }: { searchParams: R
   });
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="page-title">Campagnes</h1>
@@ -35,7 +35,7 @@ export default async function AdminCampaigns({ searchParams }: { searchParams: R
         </div>
       </div>
 
-      <div className="card overflow-hidden p-0">
+      <div className="card overflow-hidden p-0"><div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-diamond-muted border-b border-diamond-border text-left">
@@ -88,6 +88,7 @@ export default async function AdminCampaigns({ searchParams }: { searchParams: R
             })}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

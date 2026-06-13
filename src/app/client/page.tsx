@@ -34,7 +34,7 @@ export default async function ClientDashboard() {
   const cpl = leadsTotal > 0 && totalSpend > 0 ? (totalSpend / leadsTotal).toFixed(2) : "—";
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8">
       <div className="mb-8">
         <h1 className="text-2xl font-display font-bold text-diamond-text">Mon Dashboard</h1>
         <p className="text-diamond-muted mt-1">Résultats des 30 derniers jours</p>
@@ -47,7 +47,7 @@ export default async function ClientDashboard() {
         <StatCard title="Coût / Lead" value={cpl === "—" ? "—" : `$${cpl}`} icon={DollarSign} />
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="col-span-2">
           <RecentLeadsTable leads={recentLeads} />
         </div>

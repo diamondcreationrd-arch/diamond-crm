@@ -42,7 +42,7 @@ export default async function AdminDashboard() {
 
   return (
     <div className="flex-1 overflow-auto bg-diamond-bg">
-      <div className="max-w-6xl mx-auto p-8">
+      <div className="max-w-6xl mx-auto p-4 md:p-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="page-title">Tableau de bord</h1>
@@ -50,7 +50,7 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {stats.map(({ label, value, icon: Icon, color, bg, sub }) => (
             <div key={label} className="card">
               <div className="flex items-start justify-between mb-3">
@@ -66,7 +66,7 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Content grid */}
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Recent leads */}
           <div className="col-span-2 card p-0 overflow-hidden">
             <div className="flex items-center justify-between px-6 py-4 border-b border-diamond-border">

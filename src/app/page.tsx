@@ -17,10 +17,10 @@ export default async function RootPage() {
       {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-diamond-border/60">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
+          <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
             <DiamondLogo size={28} color="#BD9F50" />
             <span className="font-display font-bold text-diamond-text tracking-[0.06em] text-sm uppercase">Diamond Creation</span>
-          </div>
+          </Link>
           <div className="flex items-center gap-4">
             <Link href="/pricing" className="text-diamond-muted text-sm hover:text-diamond-text transition-colors">Tarifs</Link>
             <Link href="/login" className="text-diamond-muted text-sm hover:text-diamond-text transition-colors">Connexion</Link>

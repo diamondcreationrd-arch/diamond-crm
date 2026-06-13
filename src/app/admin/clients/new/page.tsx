@@ -36,7 +36,7 @@ export default function NewClient() {
   }
 
   return (
-    <div className="p-8 max-w-2xl">
+    <div className="p-4 md:p-8 max-w-2xl">
       <div className="flex items-center gap-3 mb-8">
         <Link href="/admin/clients" className="text-diamond-muted hover:text-white transition-colors">
           <ArrowLeft size={20} />

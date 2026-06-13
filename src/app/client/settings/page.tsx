@@ -15,7 +15,7 @@ export default async function ClientSettings() {
   ]);
 
   return (
-    <div className="p-8 max-w-2xl">
+    <div className="p-4 md:p-8 max-w-2xl">
       <div className="mb-8">
         <h1 className="font-display font-bold text-diamond-text text-2xl tracking-wide">Paramètres</h1>
         <p className="text-diamond-muted mt-1 font-body text-sm">Gérez votre profil et vos préférences</p>

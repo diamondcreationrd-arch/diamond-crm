@@ -31,13 +31,13 @@ export default async function ClientCampaigns() {
   const cpl = totalLeads > 0 && totalSpend > 0 ? `$${(totalSpend / totalLeads).toFixed(2)}` : "—";
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8">
       <div className="mb-8">
         <h1 className="text-2xl font-display font-bold text-diamond-text">Mes Campagnes</h1>
         <p className="text-diamond-muted mt-1">{campaigns.length} campagne{campaigns.length !== 1 ? "s" : ""}</p>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         <StatCard title="Campagnes actives" value={activeCampaigns} icon={TrendingUp} />
         <StatCard title="Total leads" value={totalLeads} icon={Target} />
         <StatCard title="Total dépensé" value={`$${totalSpend.toFixed(0)}`} icon={DollarSign} />

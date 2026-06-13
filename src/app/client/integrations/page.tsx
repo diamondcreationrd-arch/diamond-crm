@@ -13,7 +13,7 @@ export default async function IntegrationsPage() {
   });
 
   return (
-    <div className="p-8 max-w-3xl">
+    <div className="p-4 md:p-8 max-w-3xl">
       <div className="mb-8">
         <h1 className="page-title">Intégrations</h1>
         <p className="page-subtitle">Connectez vos comptes publicitaires pour voir vos données en temps réel.</p>
