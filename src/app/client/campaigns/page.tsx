@@ -25,9 +25,9 @@ export default async function ClientCampaigns() {
     orderBy: { createdAt: "desc" },
   });
 
-  const totalSpend = campaigns.reduce((s, c) => s + c.totalSpend, 0);
-  const totalLeads = campaigns.reduce((s, c) => s + c.totalLeads, 0);
-  const activeCampaigns = campaigns.filter(c => c.status === "ACTIVE").length;
+  const totalSpend = campaigns.reduce((s: number, c: any) => s + c.totalSpend, 0);
+  const totalLeads = campaigns.reduce((s: number, c: any) => s + c.totalLeads, 0);
+  const activeCampaigns = campaigns.filter((c: any) => c.status === "ACTIVE").length;
   const cpl = totalLeads > 0 && totalSpend > 0 ? `$${(totalSpend / totalLeads).toFixed(2)}` : "—";
 
   return (

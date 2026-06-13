@@ -30,7 +30,7 @@ export default async function ClientDashboard() {
     }),
   ]);
 
-  const totalSpend = campaigns.reduce((s, c) => s + c.totalSpend, 0);
+  const totalSpend = campaigns.reduce((s: number, c: any) => s + c.totalSpend, 0);
   const cpl = leadsTotal > 0 && totalSpend > 0 ? (totalSpend / leadsTotal).toFixed(2) : "—";
 
   return (

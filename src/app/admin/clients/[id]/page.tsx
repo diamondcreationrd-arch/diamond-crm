@@ -29,7 +29,7 @@ export default async function ClientDetail({ params }: { params: { id: string } 
     prisma.lead.findMany({ where: { clientId: client.id }, include: { campaign: true }, orderBy: { createdAt: "desc" }, take: 10 }),
   ]);
 
-  const totalSpend = client.campaigns.reduce((s, c) => s + c.totalSpend, 0);
+  const totalSpend = client.campaigns.reduce((s: number, c: any) => s + c.totalSpend, 0);
   const cpl = leadsTotal > 0 && totalSpend > 0 ? `$${(totalSpend / leadsTotal).toFixed(2)}` : "—";
 
   return (

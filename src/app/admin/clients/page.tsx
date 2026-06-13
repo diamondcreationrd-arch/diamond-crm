@@ -49,8 +49,8 @@ export default async function AdminClients() {
         )}
 
         {clients.map((client) => {
-          const totalSpend = client.campaigns.reduce((s, c) => s + c.totalSpend, 0);
-          const totalLeads = client.campaigns.reduce((s, c) => s + c.totalLeads, 0);
+          const totalSpend = client.campaigns.reduce((s: number, c: any) => s + c.totalSpend, 0);
+          const totalLeads = client.campaigns.reduce((s: number, c: any) => s + c.totalLeads, 0);
           const cpl = totalLeads > 0 && totalSpend > 0 ? (totalSpend / totalLeads).toFixed(2) : null;
 
           return (
