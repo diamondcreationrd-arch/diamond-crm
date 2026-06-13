@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { nanoid } from "crypto";
+import { v4 as uuidv4 } from "uuid";
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -26,7 +26,8 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const clientId = user.role === "SUPER_ADMIN" ? body.clientId : user.clientId;
 
-  const slug = body.slug ?? `${body.title?.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}-${nanoid(6)}`;
+  const shortId = uuidv4().replace(/-/g, "").slice(0, 6);
+  const slug = body.slug ?? `${body.title?.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}-${shortId}`;
 
   const page = await prisma.landingPage.create({
     data: {
@@ -44,6 +45,3 @@ export async function POST(req: NextRequest) {
         { id: "phone", type: "tel", label: "Téléphone", placeholder: "+1 514...", required: false },
       ]},
     },
-  });
-  return NextResponse.json(page, { status: 201 });
-}
