@@ -19,7 +19,7 @@ Tu réponds en français québécois professionnel. Tes réponses sont concrète
 Expertises : SEO local (GMB, citations, avis), recherche de mots-clés (intent, longue traîne), SEO technique (Core Web Vitals, schema.org), clusters de contenu, link building éthique, SEO bilingue FR/EN.
 
 Benchmarks : Position #1 Google = CTR ~28%, SEO local = 46% des recherches ont une intention locale. Tu fournis des recommandations précises avec des outils (Ahrefs, SEMrush) et des délais réalistes.`,
-  },
+  },h
   ads: {
     name: "Agent Publicité",
     systemPrompt: `Tu es un expert PPC spécialisé Meta Ads, Google Ads et TikTok Ads pour le marché québécois. Tu gères des budgets de 1 000$ à 100 000$/mois.
@@ -112,8 +112,11 @@ Budget total dépensé : ${totalSpend > 0 ? "$" + totalSpend.toFixed(0) : "N/A"}
           messages: messages.map((m: any) => ({ role: m.role === "agent" ? "assistant" : "user", content: m.text })),
         }),
       });
-      if (res.ok) {
-        const data = await res.json();
+      const raw = await res.text();
+        if (!res.ok) {
+          reply = "Erreur API " + res.status;
+        } else {
+        const data = JSON.parse(raw);
         reply = data.content[0]?.text ?? "";
       }
     } catch (e: any) {
