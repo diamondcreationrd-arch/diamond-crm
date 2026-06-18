@@ -1,9 +1,10 @@
 import Stripe from "stripe";
 
-const key = process.env.STRIPE_SECRET_KEY;
+const rawKey = process.env.STRIPE_SECRET_KEY;
+const key = rawKey?.trim();
 
 const stripe: Stripe | null = key
-  ? new Stripe(key, { apiVersion: "2024-06-20" as any })
+  ? new Stripe(key, { apiVersion: "2023-10-16" as any })
   : null;
 
 export default stripe;
